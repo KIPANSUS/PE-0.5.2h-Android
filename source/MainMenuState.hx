@@ -35,10 +35,7 @@ class MainMenuState extends MusicBeatState
 	var optionShit:Array<String> = [
 		'story_mode',
 		'freeplay',
-		#if MODS_ALLOWED 'mods', #end
-		#if ACHIEVEMENTS_ALLOWED 'awards', #end
 		'credits',
-		#if !switch 'donate', #end
 		'options'
 	];
 
@@ -46,6 +43,10 @@ class MainMenuState extends MusicBeatState
 	var camFollow:FlxObject;
 	var camFollowPos:FlxObject;
 	var debugKeys:Array<FlxKey>;
+	var binjaiBG:FlxSprite;
+	var blackBG:FlxSprite;
+	var binjaiman:FlxSprite;
+	var lmaobanget:FlxSprite;
 
 	override function create()
 	{
@@ -78,6 +79,45 @@ class MainMenuState extends MusicBeatState
 		bg.screenCenter();
 		bg.antialiasing = ClientPrefs.globalAntialiasing;
 		add(bg);
+		
+		binjaiBG = new FlxSprite(0, -75);
+		binjaiBG.frames = Paths.getSparrowAtlas('binjaiBG');
+		binjaiBG.antialiasing = ClientPrefs.globalAntialiasing;
+		binjaiBG.scrollFactor.set(0, yScroll);
+		binjaiBG.screenCenter();
+		binjaiBG.animation.addByPrefix('BG', 'BG', 24);
+		binjaiBG.animation.play('BG');
+		binjaiBG.updateHitbox();
+		add(binjaiBG);
+
+		blackBG = new FlxSprite(500, -75).loadGraphic(Paths.image('blackBG'));
+		blackBG.scrollFactor.set(0, yScroll);
+		blackBG.setGraphicSize(Std.int(bg.width * 1.175));
+		blackBG.updateHitbox();
+		blackBG.screenCenter(Y);
+		FlxTween.tween(blackBG, {x: -150}, 1.4, {ease: FlxEase.expoIn});
+		blackBG.antialiasing = ClientPrefs.globalAntialiasing;
+		add(blackBG);
+
+		binjaiman = new FlxSprite(-700 , 200); // originally -350, 200
+		binjaiman.frames = Paths.getSparrowAtlas('binjaibop');
+		binjaiman.antialiasing = ClientPrefs.globalAntialiasing;
+		binjaiman.scrollFactor.set(0, yScroll);
+		//binjaiman.screenCenter(Y);
+		FlxTween.tween(binjaiman, {x: -350}, 1.4, {ease: FlxEase.expoIn});
+		binjaiman.animation.addByPrefix('binjai', 'binjai', 19);
+		binjaiman.animation.play('binjai');
+		binjaiman.updateHitbox();
+		add(binjaiman);
+
+		lmaobanget = new FlxSprite(-0, -75).loadGraphic(Paths.image('lmaobangetngab'));
+		lmaobanget.scrollFactor.set(0, yScroll);
+		lmaobanget.setGraphicSize(Std.int(bg.width * 1.175));
+		lmaobanget.updateHitbox();
+		lmaobanget.screenCenter(Y);
+		FlxTween.tween(lmaobanget, {x: 1000}, 15.4, {ease: FlxEase.expoIn});
+		lmaobanget.antialiasing = ClientPrefs.globalAntialiasing;
+		// add(lmaobanget);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		camFollowPos = new FlxObject(0, 0, 1, 1);
@@ -115,6 +155,8 @@ class MainMenuState extends MusicBeatState
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
 			menuItem.animation.play('idle');
 			menuItem.ID = i;
+			menuItem.x += 610;
+			menuItem.y += 10;
 			menuItem.screenCenter(X);
 			menuItems.add(menuItem);
 			var scr:Float = (optionShit.length - 4) * 0.135;
@@ -132,6 +174,10 @@ class MainMenuState extends MusicBeatState
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, "Friday Night Funkin' v" + Application.current.meta.get('version'), 12);
+		versionShit.scrollFactor.set();
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionShit);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 64, 0, "Press D for special sound effect", 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
